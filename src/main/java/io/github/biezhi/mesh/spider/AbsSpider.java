@@ -13,7 +13,7 @@ public abstract class AbsSpider implements Spider {
 	}
 	
 	@Override
-	public Collection<String> discover(Response response, Config config) {
+	public Collection<String> discover(Response response) {
 		return null;
 	}
 	

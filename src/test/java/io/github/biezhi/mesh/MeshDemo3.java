@@ -32,7 +32,7 @@ public class MeshDemo3 extends AbsSpider {
 	}
 	
 	public static void main(String[] args) {
-		Mesh.lets("https://www.zhihu.com/explore/recommendations", new MeshDemo3()).go();
+		Mesh.lets(new MeshDemo3(), "https://www.zhihu.com/explore/recommendations").go();
 	}
 	
 }

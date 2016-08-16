@@ -21,7 +21,7 @@ public interface Spider {
 	/**
 	 * 发现链接
 	 */
-	Collection<String> discover(Response response, Config config);
+	Collection<String> discover(Response response);
 	
 	/**
 	 * 爬虫结果
@@ -29,5 +29,9 @@ public interface Spider {
 	 */
 	void parse(Response response);
 	
+	/**
+	 * 停止运行
+	 * @return
+	 */
 	boolean shutdown();
 }

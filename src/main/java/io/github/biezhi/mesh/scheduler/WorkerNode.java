@@ -60,11 +60,12 @@ public class WorkerNode implements Runnable {
 			request.trustAllHosts().trustAllCerts();
 		}
 		
+		Response response = new Response(config, request.code());
 		String html = request.body();
-		Response response = new Response(html);
+		response.html(html);
 		
 		// 发现url
-		Collection<String> urls = spider.discover(response, config);
+		Collection<String> urls = spider.discover(response);
 		if(CollectionKit.isNotEmpty(urls)){
 			UrlManager.pushAll(urls);
 		}

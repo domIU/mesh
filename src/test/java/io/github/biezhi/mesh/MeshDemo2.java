@@ -23,7 +23,7 @@ public class MeshDemo2 extends AbsSpider {
 	}
 	
 	public static void main(String[] args) {
-		Mesh.lets("https://biezhi.me", new MeshDemo2()).go();
+		Mesh.lets(new MeshDemo2(), "https://biezhi.me").go();
 	}
 	
 }

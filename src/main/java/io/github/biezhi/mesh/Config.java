@@ -6,9 +6,9 @@ import java.util.Map;
 public class Config {
 	
 	/**
-	 * 起始url
+	 * 站点url
 	 */
-	private String baseUrl;
+	private String domain;
 	
 	/**
 	 * 爬虫名字
@@ -111,12 +111,12 @@ public class Config {
 		return this;
 	}
 	
-	public String baseUrl(){
-		return this.baseUrl;
+	public String domain(){
+		return this.domain;
 	}
 	
-	public Config baseUrl(String baseUrl){
-		this.baseUrl = baseUrl;
+	public Config domain(String domain){
+		this.domain = domain;
 		return this;
 	}
 	

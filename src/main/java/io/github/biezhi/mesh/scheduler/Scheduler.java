@@ -11,6 +11,7 @@ import io.github.biezhi.mesh.Config;
 import io.github.biezhi.mesh.spider.Spider;
 import io.github.biezhi.mesh.url.Url;
 import io.github.biezhi.mesh.url.UrlManager;
+import io.github.biezhi.mesh.util.MeshUtils;
 
 /**
  * 调度器
@@ -26,7 +27,7 @@ public class Scheduler {
 	private static long timestmp;
 	private Config config;
 	
-	public Scheduler(String baseUrl, Spider spider) {
+	public Scheduler(String[] baseUrl, Spider spider) {
 		this.spider = spider;
 		this.config = spider.config();
 		if(null == this.config){
@@ -35,9 +36,14 @@ public class Scheduler {
 		this.init(baseUrl);
 	}
 	
-	private void init(String baseUrl){
-		UrlManager.push(baseUrl);
-		this.config.baseUrl(baseUrl);
+	private void init(String[] baseUrl){
+		for(String url : baseUrl){
+			UrlManager.push(url);
+		}
+		
+		String domain = MeshUtils.getUrl(baseUrl[0]);
+		this.config.domain(domain);
+		
 		int threads = this.config.threads();
 		pool = Executors.newFixedThreadPool(threads);
 		timestmp = DateKit.getCurrentUnixTime();
@@ -56,7 +62,7 @@ public class Scheduler {
 			Url url = UrlManager.pop();
 			Runnable t = new WorkerNode(this.spider, this.config, url);
 			pool.execute(t);
-			sleep(null, 100);
+			MeshUtils.sleep(100);
 		}
 		this.waitShutdown();
 	}
@@ -68,14 +74,23 @@ public class Scheduler {
 		
         LOGGER.debug("(-_-#) Task start wait...");
         
-		// wait and shutdown
-        sleep(null, 1000);
+        while(true){
+        	// wait and shutdown
+            MeshUtils.sleep(1000);
+            // 如果有URL要抓取
+			if(!UrlManager.isEmpty()){
+				LOGGER.debug("Task reactived...");
+				this.go();
+				break;
+			}
+        }
+        /*
 		int wait = this.config.waits();
 		
 		boolean isShutdown = true;
 		
 		while(wait > 0){
-			sleep(null, 1000);
+			MeshUtils.sleep(1000);
 			// 如果有URL要抓取
 			if(!UrlManager.isEmpty()){
 				wait = this.config.waits();
@@ -86,19 +101,11 @@ public class Scheduler {
 			}
 			wait--;
 		}
-		
 		if(isShutdown){
 			shutdown();
 		}
+		*/
 			
-	}
-	
-	private void sleep(Thread thread, int m){
-		try {
-			Thread.sleep(m);
-		} catch (InterruptedException e) {
-			LOGGER.error(e.getMessage(), e);
-		}
 	}
 	
 	public static void shutdown(){

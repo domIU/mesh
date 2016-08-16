@@ -17,7 +17,7 @@ public class MeshDemo1 extends AbsSpider {
 	}
 	
 	public static void main(String[] args) {
-		Mesh.lets("http://www.baidu.com", new MeshDemo1()).go();
+		Mesh.lets(new MeshDemo1(), "http://www.baidu.com").go();
 	}
 	
 	

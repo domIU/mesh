@@ -40,7 +40,7 @@ public class MeshDemo4 extends AbsSpider {
 	}
 	
 	@Override
-	public Collection<String> discover(Response response, Config config) {
+	public Collection<String> discover(Response response) {
 		List<String> urls = new ArrayList<String>();
 		Iterator<Element> its = response.doc("div.paginator a").iterator();
 		String baseUrl = "https://movie.douban.com/top250";
@@ -52,7 +52,7 @@ public class MeshDemo4 extends AbsSpider {
 	}
 	
 	public static void main(String[] args) {
-		Mesh.lets("https://movie.douban.com/top250?start=0&filter=", new MeshDemo4()).go();
+		Mesh.lets(new MeshDemo4(), "https://movie.douban.com/top250?start=0&filter=").go();
 	}
 	
 	
